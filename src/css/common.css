@@ -17,12 +17,16 @@ img {
   max-width: 100%;
 }
 
-button {
+.buttons {
   display: flex;
   justify-content: center;
-  margin: 0 auto;
-  padding: 10px 50px;
-  font-size: 20;
+  gap: 20px;
+}
+
+button {
   cursor: pointer;
-  border: 1px solid;
+  font-size: 20px;
+  padding: 10px 50px;
+  background-color: #d3d3d3;
+  border: 0.5px solid;
 }
