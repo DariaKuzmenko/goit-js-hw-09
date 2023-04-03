@@ -14,8 +14,6 @@ const clockFace = {
   field: document.querySelectorAll('.field'),
 };
 
-let selectedDate = null;
-
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -27,24 +25,12 @@ const options = {
       alert('Please choose a date in the future');
     }
     buttonStart.disabled = false;
-    console.log(selectedDate);
   },
 };
 
 flatpickr(refs.dateInput, options);
 
 buttonStart.addEventListener('click', onTimerStart);
-
-function onTimerStart() {
-  const timer = {
-    start() {
-      const startTime = new Date();
-      setInterval(() => {
-        const deltaTime = selectedDate - startTime;
-      }, 1000);
-    },
-  };
-}
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
