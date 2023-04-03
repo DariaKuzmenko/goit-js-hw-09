@@ -1,8 +1,9 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const refs = {
-  dateInput: document.querySelector('datetime-picker'),
+  dateInput: document.querySelector('#datetime-picker'),
   buttonStart: document.querySelector('[data-start]'),
 };
 
@@ -22,7 +23,9 @@ const options = {
   onClose(selectedDates) {
     selectedDate = selectedDates[0];
     if (selectedDate <= Date.now()) {
-      alert('Please choose a date in the future');
+      Notify.failure('Please choose a date in the future');
+      refs.buttonStart.disabled = true;
+      return;
     }
     refs.buttonStart.disabled = false;
   },
@@ -30,17 +33,42 @@ const options = {
 
 flatpickr(refs.dateInput, options);
 
-buttonStart.addEventListener('click', onTimerStart);
+let selectedDate = null;
+
+const timer = {
+  intervalId: null,
+  isActive: false,
+
+  start() {
+    if (this.isActive) {
+      return;
+    }
+    refs.buttonStart.disabled = true;
+    this.isActive = true;
+
+    this.intervalId = setInterval(() => {
+      const deltaTime = selectedDate - Date.now();
+      updateClockFace(convertMs(deltaTime));
+      timerFinished(deltaTime, this.intervalId);
+    }, 1000);
+  },
+};
+
+refs.buttonStart.addEventListener('click', onTimerStart);
+
+function onTimerStart() {
+  timer.start();
+}
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
 
 function updateClockFace({ days, hours, minutes, seconds }) {
-  refs.clockFace.textContent = this.addLeadingZero(days);
-  refs.clockFace.textContent = this.addLeadingZero(hours);
-  refs.clockFace.textContent = this.addLeadingZero(minutes);
-  refs.clockFace.textContent = this.addLeadingZero(seconds);
+  clockFace.days.textContent = addLeadingZero(days);
+  clockFace.hours.textContent = addLeadingZero(hours);
+  clockFace.minutes.textContent = addLeadingZero(minutes);
+  clockFace.seconds.textContent = addLeadingZero(seconds);
 }
 
 function convertMs(ms) {
@@ -60,4 +88,12 @@ function convertMs(ms) {
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
+}
+
+function timerFinished(deltaTime, intervalId) {
+  if (deltaTime < 1000) {
+    clearInterval(intervalId);
+    refs.buttonStart.disabled = false;
+    Notify.success('Timer expired!');
+  }
 }

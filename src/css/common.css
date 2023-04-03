@@ -38,3 +38,36 @@ button {
   flex-wrap: wrap;
   font-weight: 500;
 }
+
+.timer {
+  display: flex;
+  gap: 20px;
+  font-weight: 700;
+  font-size: x-large;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.timer-btn {
+  border-radius: 10px;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  background-image: linear-gradient(
+    to right,
+    #9eefe1 0%,
+    #4830f0 51%,
+    #9eefe1 100%
+  );
+}
+
+.timer-input {
+  font-size: medium;
+  color: #212529;
+  background-color: #fff;
+  border-color: #bdbdbd;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(158, 158, 158, 0.25);
+}
