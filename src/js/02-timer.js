@@ -12,7 +12,6 @@ const clockFace = {
   hours: document.querySelector('[data-hours]'),
   minutes: document.querySelector('[data-minutes]'),
   seconds: document.querySelector('[data-seconds]'),
-  field: document.querySelectorAll('.field'),
 };
 
 const options = {
@@ -93,7 +92,9 @@ function convertMs(ms) {
 function timerFinished(deltaTime, intervalId) {
   if (deltaTime < 1000) {
     clearInterval(intervalId);
-    refs.buttonStart.disabled = false;
     Notify.success('Timer expired!');
+    refs.buttonStart.disabled = false;
+    refs.dateInput.disabled = false;
+    timer.isActive = false;
   }
 }
