@@ -30,3 +30,11 @@ button {
   background-color: #d3d3d3;
   border: 0.5px solid;
 }
+
+.form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-weight: 500;
+}

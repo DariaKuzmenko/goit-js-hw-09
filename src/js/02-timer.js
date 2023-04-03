@@ -6,22 +6,56 @@ const refs = {
   buttonStart: document.querySelector('[data-start]'),
 };
 
+const clockFace = {
+  days: document.querySelector('[data-days]'),
+  hours: document.querySelector('[data-hours]'),
+  minutes: document.querySelector('[data-minutes]'),
+  seconds: document.querySelector('[data-seconds]'),
+  field: document.querySelectorAll('.field'),
+};
+
+let selectedDate = null;
+
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    selectedDates = selectedDates[0];
+    selectedDate = selectedDates[0];
     if (selectedDate <= Date.now()) {
       alert('Please choose a date in the future');
-      return;
     }
-    refs.buttonStart.disabled = true;
+    buttonStart.disabled = false;
+    console.log(selectedDate);
   },
 };
 
-flatpickr('input[type="text"]', options);
+flatpickr(refs.dateInput, options);
+
+buttonStart.addEventListener('click', onTimerStart);
+
+function onTimerStart() {
+  const timer = {
+    start() {
+      const startTime = new Date();
+      setInterval(() => {
+        const deltaTime = selectedDate - startTime;
+      }, 1000);
+    },
+  };
+}
+
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+}
+
+function updateClockFace({ days, hours, minutes, seconds }) {
+  refs.clockFace.textContent = this.addLeadingZero(days);
+  refs.clockFace.textContent = this.addLeadingZero(hours);
+  refs.clockFace.textContent = this.addLeadingZero(minutes);
+  refs.clockFace.textContent = this.addLeadingZero(seconds);
+}
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
