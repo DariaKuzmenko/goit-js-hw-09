@@ -24,7 +24,7 @@ const options = {
     if (selectedDate <= Date.now()) {
       alert('Please choose a date in the future');
     }
-    buttonStart.disabled = false;
+    refs.buttonStart.disabled = false;
   },
 };
 
